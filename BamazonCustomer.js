@@ -12,18 +12,18 @@ function inventory() {
 		console.log("___________ --- OUR CURRENT INVENTORY --- _____________");
 		console.log("_______________________________________________________");
 		for(var j = 0; j < res.length; j++) {
-			if(res[i].stockQuantity > 0){
+			if(res[j].stockQuantity > 0){
 				console.log(res[j].itemID +")  |  "+res[j].productName+"  |  $"+res[j].price);
 			}
 		}
 		console.log("_______________________________________________________");
 	});
-	// transaction();
+	transaction();
 };
 	//then prompt users with two messages
 	//	the first should ask them the id of the product they would like to buy
 	// the second should ask how many units of the product they would like to buy
-// function transaction() {
+function transaction() {
 	inquirer.prompt([
 		{
 			type: "input",
@@ -37,20 +37,26 @@ function inventory() {
 		}
 	]).then(function(answers){
 		var orderID = answers.orderID;
+			orderID--;
 		var orderQuant = answers.orderQuant;
+		console.log(orderID+" "+orderQuant);
 
 		key.connection.query('SELECT * FROM products', function(err, res) {
 			for(var i = 0; i < res.length; i++) {
+				var orderTotal = res[orderID].price * orderQuant;
 				if(i == orderID) {
 					if(res[i].stockQuantity > orderQuant) {
 						newInv = res[i].stockQuantity - orderQuant;
+						prodName = res[orderID].productName;
+
 						key.connection.query(
 							'UPDATE products SET stockQuantity = ? Where itemID = ?',
 							[newInv, i],
 							function(err, res) {
 								if (err) throw err;
 
-								console.log("Thank you for your purchase of "+orderQuant+" "+res[i].productName+".");
+								console.log("Thank you for your purchase of "+orderQuant+" "+prodName+".");
+								console.log("Your total comes to $"+orderTotal);
 
 								inquirer.prompt([
 									{
@@ -74,7 +80,9 @@ function inventory() {
 						key.connection.query('UPDATE products SET ? WHERE ?', [{stockQuantity: newInv}, {itemID: itmId}], function(err, res) {
 								if (err) throw err;
 
-								console.log("Thank you for your purchase of "+orderQuant+" "+res[itmId].productName+".");
+								console.log("Thank you for your purchase of "+orderQuant+" "+prodName+".");
+								console.log("Your total comes to $"+orderTotal);
+
 
 								inquirer.prompt([
 									{
@@ -94,7 +102,7 @@ function inventory() {
 						);
 					} else if (res[i].stockQuantity < orderQuant) {
 						console.log("We're sorry, but there are only "+res[i].stockQuantity+
-						" "+res[i].productName+" left in stock.");
+						" "+res[orderID].productName+" left in stock.");
 
 						inquirer.prompt([
 							{
@@ -115,7 +123,7 @@ function inventory() {
 			}
 		})
 	})
-// }
+}
 
 //check store inventory to see if bamazon can meet the user request
 
