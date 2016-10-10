@@ -18,7 +18,7 @@ function inventory() {
 		}
 		console.log("_______________________________________________________");
 	});
-	transaction();
+	setTimeout(function() {transaction();}, 1000); 
 };
 	//then prompt users with two messages
 	//	the first should ask them the id of the product they would like to buy
