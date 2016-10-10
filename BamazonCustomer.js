@@ -81,6 +81,7 @@ function transaction() {
 								if (err) throw err;
 
 								console.log("Thank you for your purchase of "+orderQuant+" "+prodName+".");
+								console.log("You just bought us clean out of "+prodName+"! Enjoy your rare goodies!");
 								console.log("Your total comes to $"+orderTotal);
 
 
