@@ -1,4 +1,3 @@
-console.log('This is loaded');
 var mysql = require('mysql');
 
 exports.connection = mysql.createConnection({

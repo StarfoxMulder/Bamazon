@@ -101,29 +101,29 @@ function transaction() {
 							}
 						);
 					} else if (res[i].stockQuantity < orderQuant) {
-						console.log("We're sorry, but there are only "+res[i].stockQuantity+
-						" "+res[orderID].productName+" left in stock.");
+						console.log("We're sorry, but only "+res[i].stockQuantity+
+						" "+res[orderID].productName+" remains in stock in stock.");
 
 						inquirer.prompt([
 							{
-								type: "input",
+								type: "in",
 								message: "If you would like to update your order, please enter 'UPDATE': ",
 								name: "orderUpdate"
 							}
 						]).then(function(answers){
-							var more = answers.orderNew.toUpperCase();
-							if(more == 'UPDATE') {
+							var update = answers.orderUpdate.toUpperCase();
+							if(update == 'UPDATE') {
 								inventory();
 							} else {
 								console.log("Goodbye for now! Thanks for Baming with Bamazon!");
 							}
-						  });
+						})
 					}
 				}
 			}
 		})
 	})
-}
+};
 
 //check store inventory to see if bamazon can meet the user request
 
@@ -137,3 +137,4 @@ function transaction() {
 
 
 //once db update has gone through, show the customer the total cost of their purchase
+
