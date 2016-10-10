@@ -39,7 +39,6 @@ function transaction() {
 		var orderID = answers.orderID;
 			orderID--;
 		var orderQuant = answers.orderQuant;
-		console.log(orderID+" "+orderQuant);
 
 		key.connection.query('SELECT * FROM products', function(err, res) {
 			for(var i = 0; i < res.length; i++) {
